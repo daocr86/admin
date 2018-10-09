@@ -1,0 +1,42 @@
+﻿#定义 stages，用来定义工作阶段，多个 stages 会按顺序进行
+stages:
+  - deployonline
+  - deployOfficeReleaseTest
+  - DeployOfficeReleaseTestYanghe
+
+
+# 部署线上服务器
+deployonline:
+  stage: deployonline
+  only:
+    - master
+  script:
+    - echo 'Start to deploy to online server 121.41.173.180'
+    - ssh -t -t zhiwo@121.41.173.180 "cd /home/zhiwo/global.zhiwo.com;git pull;chmod -R +x Third/PHPQRcode/tools/*.sh;rm View/tpl_c/* -rf;"
+    - echo 'Done.'
+
+
+# 部署本地测试服务器
+deployOfficeReleaseTest:
+  stage: deployOfficeReleaseTest
+  only:
+    - release
+  script:
+    - echo 'Start to deploy to Office Release Test server 192.168.1.21'
+    - echo 'Start to deploy to www.allbuy.en'
+    - ssh -t -t ichain@192.168.1.21 "cd /data/ichain/websites/www.allbuy.en;/usr/bin/git pull;chmod -R +x Third/PHPQRcode/tools/*.sh;rm View/tpl_c/* -rf;"
+    - echo 'Start to deploy to www.allbuy.en'
+    - ssh -t -t ichain@192.168.1.21 "cd /data/ichain/websites/www.allbuy.cn;/usr/bin/git pull;chmod -R +x Third/PHPQRcode/tools/*.sh;rm View/tpl_c/* -rf;"
+    - echo 'Done.'    
+
+# 部署Yanghe本地测试服务器
+DeployOfficeReleaseTest:
+  stage: DeployOfficeReleaseTestYanghe
+  only:
+    - feature/yanghe
+  script:
+    - echo 'Start to deploy to Office Release Test server 192.168.1.21'
+    - echo 'Start to deploy to www.allbuy.cn'
+    - ssh -t -t ichain@192.168.1.21 "cd /data/ichain/websites/yanghe.www.allbuy.cn;/usr/bin/git pull;chmod -R +x Third/PHPQRcode/tools/*.sh;rm View/tpl_c/* -rf;"
+    - echo 'Done.'
+    

@@ -1,0 +1,26 @@
+
+## Ignore Data Folder
+
+/data/*
+*.pid
+*.lock
+
+
+## Ignore Log
+
+/log/*
+*.log
+*.log.wf
+
+/logs/*
+
+## Ignore View/tpl_c
+
+[Vv]iew/tpl_c/
+
+
+## Ignore Visual Studio Files
+.vs/
+*.suo
+.idea/
+.idea/inspectionProfiles/
